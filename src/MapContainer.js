@@ -20,7 +20,7 @@ class MapContainer extends Component {
 		  apiKey: "AIzaSyBvH98tHuyefd1LNBuCsSmhTOmFfwgEvFk",
 		  language: 'en',
 		  libraries: ['geometry']
-		}).then(( Maps ) => {
+		}).then((Maps) => {
 		    const map = new Maps.Map(document.getElementById('map'), {
 		      zoom: 8,
 		      center: new Maps.LatLng(-34.397, 150.644),
@@ -97,7 +97,9 @@ class MapContainer extends Component {
 	render() {
   	return (
   		<div className="w3-container">
-				<div id="map"></div>
+				<div id="map">
+					{this.initMap()}
+				</div>
 			</div>
 		)
 	}
