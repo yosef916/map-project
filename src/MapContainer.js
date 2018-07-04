@@ -6,7 +6,7 @@ class MapContainer extends Component {
 	initMap() {
 		let google = window.google
 		const fetchGoogleMaps = require('fetch-google-maps')
-	 //MAP DISPLAY
+	 	//MAP DISPLAY
 		fetchGoogleMaps({
 		  apiKey: "AIzaSyBvH98tHuyefd1LNBuCsSmhTOmFfwgEvFk",
 		  language: 'en',
@@ -83,11 +83,10 @@ class MapContainer extends Component {
         ]
 	  	})
 
-	   	// draw markers
+   		//DRAW MARKERS
 	   	this.props.locations.map( (locate) => {
 	   		var position = locate.location
 		    var title = locate.title
-
 		    var marker = new window.google.maps.Marker({
 		      position: position,
 		      map: map,
