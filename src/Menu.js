@@ -15,19 +15,27 @@ class Menu extends Component {
     document.getElementById("openNav").style.display = "inline-block";
   }
 
+  state= {
+  	quety: ''
+  }
+
 	render() {
   	return (
 	  	<div>	
 	  		<div className="w3-sidebar w3-bar-block w3-card w3-animate-left" id="mySidebar">
-				  <button className="w3-bar-item w3-button w3-large"
-				  onClick={this.w3_close}>Close &times;</button>
+				  <button 
+				  	className="w3-bar-item w3-button w3-large"
+				  	onClick={this.w3_close}
+			  	>Close &times;</button>
 				  <ul>
-						<li>1</li>
-						<li>2</li>
-						<li>3</li>
-						<li>4</li>
-						<li>5</li>
-						<li>6</li>
+				  	{this.props.locations.map((location, i) => (
+							<li 
+								id={i}
+								key={i}
+							>
+							{location.title}
+							</li>
+				  	))}
 				  </ul>
 				</div>
 

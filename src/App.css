@@ -40,6 +40,18 @@
 
 #map {
   height: 100%;
+  margin-left: -15;
+}
+
+ul {
+  text-align: left;
+  padding-left: 30px;
+  font-size: 14px;
+  line-height: 2em;
+}
+
+#mySidebar {
+  width: 17% !important;
 }
 
 @media screen and (max-width: 768px) {
