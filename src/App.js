@@ -19,7 +19,7 @@ class App extends Component {
     return (
       <div className="App">
         <Menu locations= {this.state.locations}/>
-        <MapContainer />
+        <MapContainer locations= {this.state.locations}/>
       </div>
     )
   }

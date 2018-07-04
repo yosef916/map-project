@@ -29,12 +29,7 @@ class Menu extends Component {
 			  	>Close &times;</button>
 				  <ul>
 				  	{this.props.locations.map((location, i) => (
-							<li 
-								id={i}
-								key={i}
-							>
-							{location.title}
-							</li>
+							<li key={i}>{location.title}</li>
 				  	))}
 				  </ul>
 				</div>
