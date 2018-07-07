@@ -3,6 +3,7 @@ import './App.css'
 
 class Menu extends Component {
 
+	//https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_sidebar_shift
 	w3_open() {
     document.getElementById("main").style.marginLeft = "25%";
     document.getElementById("mySidebar").style.width = "25%";
@@ -20,6 +21,7 @@ class Menu extends Component {
   }
 
 	render() {
+    const map=this.props.map
   	return (
 	  	<div>	
 	  		<div className="w3-sidebar w3-bar-block w3-card w3-animate-left" id="mySidebar">
@@ -29,7 +31,7 @@ class Menu extends Component {
 			  	>Close &times;</button>
 				  <ul>
 				  	{this.props.locations.map((location, i) => (
-							<li key={i}>{location.title}</li>
+							<li key={i} onClick={() => this.props.locationItemClicked(location)}>{location.title}</li>
 				  	))}
 				  </ul>
 				</div>
