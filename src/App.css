@@ -79,3 +79,32 @@ Input {
   z-index: 5;
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 0 6px rgba(0,0,0,0.23);
 }
+
+@media screen and (max-width: 1024px) {
+  #mySidebar {
+    display: none;
+    width: 25% !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #mySidebar {
+    display: none;
+    width: 35% !important;
+  }
+
+  #map {
+    zoom: 80%;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  #mySidebar {
+    display: none;
+    width: 60% !important;
+  }
+
+  #map {
+    zoom: 60%;
+  }
+}

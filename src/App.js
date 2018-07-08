@@ -21,7 +21,7 @@ class App extends Component {
 	}
 
   componentDidMount() { 
-    console.log(this)
+    // console.log(this)
     appComponent = this
 
     //https://www.npmjs.com/package/fetch-google-maps
@@ -108,12 +108,12 @@ class App extends Component {
   }
 
   initMap() {
-    const map = this.state.map
+    // const map = this.state.map
     // console.log(window.google)
 
     //DRAW MARKERS
     this.state.locations.map((locate) => {
-      this.locationClick(locate, this.state.map)
+      return this.locationClick(locate, this.state.map)
       // appComponent.markerClick(locate)
     })
   }
@@ -154,7 +154,7 @@ class App extends Component {
   //Check to make sure the infowindow is not already opened on this marker
   populateInfoWindow(marker, infowindow, map) {
     // console.log(marker, infowindow, map)
-    if (infowindow.marker != marker) {
+    if (infowindow.marker !== marker) {
       infowindow.marker = marker
       infowindow.setContent('<div>' + marker.title + '</div>')
       infowindow.open(map, marker)

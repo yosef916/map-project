@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {DebounceInput} from 'react-debounce-input'
 import escapeRegExp from 'escape-string-regexp'
-import sortBy from 'sort-by'
 import './App.css'
 
 class Menu extends Component {
@@ -28,18 +27,18 @@ class Menu extends Component {
   }
 
 	render() {
-    const map=this.props.map
     const query = this.state.query
+    const loc=this.props
     let showingLocation
-    
+
     //when the user types the name of a location the menu will filter the locations
     if(query) {
     	const match = new RegExp(escapeRegExp(query), 'i')
     	// console.log(match)
-    	showingLocation = this.props.locations.filter((location) => match.test(location.title))
+    	showingLocation = loc.locations.filter((location) => match.test(location.title))
     	// console.log(showingLocation)
     } else {
-    	showingLocation = this.props.locations
+    	showingLocation = loc.locations
     }
 
   	return (
@@ -57,7 +56,7 @@ class Menu extends Component {
         	/>
 				  <ul>
 				  	{showingLocation.map((location, i) => (
-							<li key={i} onClick={() => this.props.locationItemClicked(location)}>{location.title}</li>
+							<li key={i} onClick={() => loc.locationItemClicked(location)}>{location.title}</li>
 				  	))}
 				  </ul>
 				</div>
