@@ -55,7 +55,13 @@ li {
   cursor: pointer;
   font: bold 15px Century Gothic;
   line-height: 400%;
-  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+li:hover {
+  background-color: #eee;
+  margin-left: -5;
+  padding-left: -15;
 }
 
 .w3-bar-block .w3-bar-item {
@@ -72,8 +78,4 @@ Input {
   width: 100%;
   z-index: 5;
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 0 6px rgba(0,0,0,0.23);
-}
-
-@media screen and (max-width: 768px) {
-  
 }

@@ -23,15 +23,23 @@ class Menu extends Component {
   	query: ''
   }
 
+  updateQuery = (query) => {
+  	this.setState({ query: query })
+  }
+
 	render() {
     const map=this.props.map
+    const query = this.state.query
     let showingLocation
     
-    if(this.state.query) {
-    	const match = new RegExp(escapeRegExp(this.state.query), 'i')
-    	showingLocation = this.props.locations.title.filter((location) => match.test(location.title))
+    //when the user types the name of a location the menu will filter the locations
+    if(query) {
+    	const match = new RegExp(escapeRegExp(query), 'i')
+    	// console.log(match)
+    	showingLocation = this.props.locations.filter((location) => match.test(location.title))
+    	// console.log(showingLocation)
     } else {
-    	showingLocation = this.props.locations.title
+    	showingLocation = this.props.locations
     }
 
   	return (
@@ -44,6 +52,8 @@ class Menu extends Component {
 			  	<DebounceInput 
             type='text'
             placeholder='Search for location'
+            value={this.state.query}
+            onChange={event => this.updateQuery(event.target.value)}
         	/>
 				  <ul>
 				  	{showingLocation.map((location, i) => (
