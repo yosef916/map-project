@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import {DebounceInput} from 'react-debounce-input'
+import escapeRegExp from 'escape-string-regexp'
+import sortBy from 'sort-by'
 import './App.css'
 
 class Menu extends Component {
@@ -17,11 +20,20 @@ class Menu extends Component {
   }
 
   state= {
-  	quety: ''
+  	query: ''
   }
 
 	render() {
     const map=this.props.map
+    let showingLocation
+    
+    if(this.state.query) {
+    	const match = new RegExp(escapeRegExp(this.state.query), 'i')
+    	showingLocation = this.props.locations.title.filter((location) => match.test(location.title))
+    } else {
+    	showingLocation = this.props.locations.title
+    }
+
   	return (
 	  	<div>	
 	  		<div className="w3-sidebar w3-bar-block w3-card w3-animate-left" id="mySidebar">
@@ -29,8 +41,12 @@ class Menu extends Component {
 				  	className="w3-bar-item w3-button w3-large"
 				  	onClick={this.w3_close}
 			  	>Close &times;</button>
+			  	<DebounceInput 
+            type='text'
+            placeholder='Search for location'
+        	/>
 				  <ul>
-				  	{this.props.locations.map((location, i) => (
+				  	{showingLocation.map((location, i) => (
 							<li key={i} onClick={() => this.props.locationItemClicked(location)}>{location.title}</li>
 				  	))}
 				  </ul>

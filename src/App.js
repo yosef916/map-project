@@ -118,7 +118,7 @@ class App extends Component {
     })
   }
 
-	//WHEN THE USER CLICK THE MARKER, THE INFOWINDOW WILL APPEAR
+	//WHEN THE USER CLICKS THE MARKER, THE INFOWINDOW WILL APPEAR
   locationClick (location, mapObj) {
     const map = mapObj
     var position = location.location
@@ -142,7 +142,7 @@ class App extends Component {
     }
   }
   
-  //WHEN THE USER CLICK THE LOCATION FROM HAMBURGER MENU IT WILL REFER TO THE MARKER OF THAT LOCATION AND SHOW ITS INFOWINDOW
+  //WHEN THE USER CLICKS THE LOCATION FROM HAMBURGER MENU IT WILL REFER TO THE MARKER OF THAT LOCATION AND SHOW ITS INFOWINDOW
   locationItemClicked (location) {
     // console.log(location)
 
