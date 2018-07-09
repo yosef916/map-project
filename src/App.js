@@ -17,7 +17,8 @@ class App extends Component {
       {title: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}, venue: '4bbb9dbded7776b0e1ad3e51'},
       {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}, venue: '4f52680fe4b0639bb9363366'}
 		],
-    map: {}
+    map: {},
+    locationInfo: {}
 	}
 
   componentDidMount() { 
@@ -114,7 +115,6 @@ class App extends Component {
     //DRAW MARKERS
     this.state.locations.map((locate) => {
       return this.locationClick(locate, this.state.map)
-      // appComponent.markerClick(locate)
     })
   }
 
@@ -138,6 +138,7 @@ class App extends Component {
       marker.addListener('click', function() {
         // console.log(mapComponent)
         appComponent.populateInfoWindow(marker, largeInfowindow, map)
+				appComponent.foursquare(location.venue)
       })
     }
   }
@@ -146,9 +147,10 @@ class App extends Component {
   locationItemClicked (location) {
     // console.log(location)
 
-    let clickedItem = markers.filter((marker) => marker.title === location.title);
+    let clickedItem = markers.filter((marker) => marker.title === location.title)
     // console.log(clickedItem)
-    appComponent.populateInfoWindow(clickedItem[0], largeInfowindow);
+    appComponent.populateInfoWindow(clickedItem[0], largeInfowindow)
+
   }
 
   //Check to make sure the infowindow is not already opened on this marker
@@ -164,6 +166,30 @@ class App extends Component {
       })
     }
   }
+  
+  //https://github.com/HadeerFawzy/Neighborhood-Map/blob/master/neighberhood-map/src/MapComponent.js#L126
+  //https://foursquare.com/developers/apps
+  foursquare(markerId) {
+  	var clientId='MAKH03YCQYNLZ53UYX1HPC2BZOE253CULBKASUPA13QVG20L'
+    var clientSecret='CWTGSQ2XPUYPA5B3VRSVF1BFGUD0SEPY4FB1KHKLVYEU0R5W'
+    var url = 'https://api.foursquare.com/v2/venues/' + markerId + '?client_id=' + clientId + '&client_secret=' + clientSecret + '&v=20180611'
+
+    fetch(url).then(res => res.json())
+  	.then(
+      (result) => {
+        // console.log(result)
+        this.setState({
+          locationInfo: result.response.venue
+        })          
+        // console.log(this.state.locationInfo)
+        this.setState({
+          isLoaded: true,
+          items: result.items
+        })
+      },
+      	(error) => { this.setState({ isLoaded: true, error }) }
+    )
+  }
 
   render() {
     return (
@@ -176,3 +202,5 @@ class App extends Component {
 }
 
 export default App
+
+// .catch( error => ( console.log(error), this.setState({ requestState: false }) ) )

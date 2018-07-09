@@ -50,11 +50,11 @@ class Menu extends Component {
 			  	>Close &times;</button>
 			  	<DebounceInput 
             type='text'
-            placeholder='Search for location'
+            placeholder='Station location'
             value={this.state.query}
             onChange={event => this.updateQuery(event.target.value)}
         	/>
-				  <ul>
+				  <ul aria-label='navigation'>
 				  	{showingLocation.map((location, i) => (
 							<li key={i} onClick={() => loc.locationItemClicked(location)}>{location.title}</li>
 				  	))}
