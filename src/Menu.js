@@ -54,7 +54,7 @@ class Menu extends Component {
             value={this.state.query}
             onChange={event => this.updateQuery(event.target.value)}
         	/>
-				  <ul aria-label='navigation'>
+				  <ul role='menu' aria-label='navigation'>
 				  	{showingLocation.map((location, i) => (
 							<li key={i} onClick={() => loc.locationItemClicked(location)}>{location.title}</li>
 				  	))}

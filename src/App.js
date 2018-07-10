@@ -204,8 +204,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Menu locations= {this.state.locations} map={this.state.map} locationItemClicked={this.locationItemClicked}/>
-        <MapContainer locations= {this.state.locations}  map={this.initMap()}/>
+        <Menu 
+        	locations= {this.state.locations} 
+        	map={this.state.map} 
+        	locationItemClicked={this.locationItemClicked} 
+        />
+        <MapContainer 
+        	locations= {this.state.locations}
+        	map={this.initMap()}
+        />
       </div>
     )
   }
