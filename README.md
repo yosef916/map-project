@@ -2442,3 +2442,7 @@ In the future, we might start automatically compiling incompatible third-party m
 ## Something Missing?
 
 If you have ideas for more “How To” recipes that should be on this page, [let us know](https://github.com/facebookincubator/create-react-app/issues) or [contribute some!](https://github.com/facebookincubator/create-react-app/edit/master/packages/react-scripts/template/README.md)
+
+# How this application works?
+
+With this application, the user will be able to see few saved places, when he click on any saved location the ajex request will give him useful data for this specific location such as photos and addresses.
