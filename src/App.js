@@ -146,11 +146,10 @@ class App extends Component {
   //WHEN THE USER CLICKS THE LOCATION FROM HAMBURGER MENU IT WILL REFER TO THE MARKER OF THAT LOCATION AND SHOW ITS INFOWINDOW
   locationItemClicked (location) {
     // console.log(location)
-
     let clickedItem = markers.filter((marker) => marker.title === location.title)
     // console.log(clickedItem)
     appComponent.populateInfoWindow(clickedItem[0], largeInfowindow)
-
+    appComponent.foursquare(location.venue)
   }
 
   //Check to make sure the infowindow is not already opened on this marker
@@ -158,7 +157,18 @@ class App extends Component {
     // console.log(marker, infowindow, map)
     if (infowindow.marker !== marker) {
       infowindow.marker = marker
-      infowindow.setContent('<div>' + marker.title + '</div>')
+      let locationInfoVar = this.state.locationInfo, content
+      if (locationInfoVar) {
+      	// console.log(locationInfoVar)
+        { locationInfoVar.bestPhoto ?
+          content = '<div>' + marker.title + '</div>' + '<img style="width: 100px; height: 100px" src=' + locationInfoVar.bestPhoto.prefix + '300x300' + locationInfoVar.bestPhoto.suffix + ' alt=' + locationInfoVar.name + '/>'
+          : 
+          content = '<div>' + marker.title + '</div>' + '<b>Image is not available !</b>'
+        }
+        infowindow.setContent(content)
+      } else {
+	      infowindow.setContent('<div>' + marker.title + '</div>')
+      }
       infowindow.open(map, marker)
       // Make sure the marker property is cleared if the infowindow is closed.
       infowindow.addListener('closeclick', function() {
@@ -166,12 +176,12 @@ class App extends Component {
       })
     }
   }
-  
+
   //https://github.com/HadeerFawzy/Neighborhood-Map/blob/master/neighberhood-map/src/MapComponent.js#L126
   //https://foursquare.com/developers/apps
   foursquare(markerId) {
-  	var clientId='MAKH03YCQYNLZ53UYX1HPC2BZOE253CULBKASUPA13QVG20L'
-    var clientSecret='CWTGSQ2XPUYPA5B3VRSVF1BFGUD0SEPY4FB1KHKLVYEU0R5W'
+  	var clientId='0XYIQDEZYH1EXMULMKZQJUF0FUT1J41ECSNOHBFO0NLMSIWM'
+    var clientSecret='OWMEQKQHA4SUN4AT42WVX33VC3PMHNV0QVNNVBZFAU0XDDQI'
     var url = 'https://api.foursquare.com/v2/venues/' + markerId + '?client_id=' + clientId + '&client_secret=' + clientSecret + '&v=20180611'
 
     fetch(url).then(res => res.json())
@@ -202,5 +212,3 @@ class App extends Component {
 }
 
 export default App
-
-// .catch( error => ( console.log(error), this.setState({ requestState: false }) ) )
