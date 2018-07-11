@@ -24,7 +24,7 @@ class App extends Component {
   componentDidMount() { 
     // console.log(this)
     appComponent = this
-    
+
     //https://www.npmjs.com/package/fetch-google-maps
     const fetchGoogleMaps = require('fetch-google-maps');
     //fetch google maps api and create a new map
@@ -131,7 +131,7 @@ class App extends Component {
       var marker = new window.google.maps.Marker({
         map: map,
         draggable: true,
-        animation: google.maps.Animation.DROP,
+        animation: window.google.maps.Animation.DROP,
         position: position,
         title: title
       })
@@ -140,19 +140,19 @@ class App extends Component {
         // console.log(mapComponent)
         appComponent.populateInfoWindow(marker, largeInfowindow, map)
 				appComponent.foursquare(location.venue)
-        toggleBounce
+        // toggleBounce
       })
       // console.log(markers)
       markers.push(marker)
     }
 
-    function toggleBounce() {
-      if (marker.getAnimation() !== null) {
-        marker.setAnimation(null)
-      } else {
-        marker.setAnimation(google.maps.Animation.BOUNCE)
-      }
-    }
+    // function toggleBounce() {
+    //   if (marker.getAnimation() !== null) {
+    //     marker.setAnimation(null)
+    //   } else {
+    //     marker.setAnimation(window.google.maps.Animation.BOUNCE)
+    //   }
+    // }
   }
   
   //WHEN THE USER CLICKS THE LOCATION FROM HAMBURGER MENU IT WILL REFER TO THE MARKER OF THAT LOCATION AND SHOW ITS INFOWINDOW
