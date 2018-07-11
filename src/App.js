@@ -24,7 +24,7 @@ class App extends Component {
   componentDidMount() { 
     // console.log(this)
     appComponent = this
-
+    
     //https://www.npmjs.com/package/fetch-google-maps
     const fetchGoogleMaps = require('fetch-google-maps');
     //fetch google maps api and create a new map
@@ -127,19 +127,31 @@ class App extends Component {
     if (window.google !== undefined) {
       // console.log(window.google)
       largeInfowindow = new window.google.maps.InfoWindow()
+
       var marker = new window.google.maps.Marker({
-        position: position,
         map: map,
+        draggable: true,
+        animation: google.maps.Animation.DROP,
+        position: position,
         title: title
-      }) 
-      // console.log(markers)
-      markers.push(marker)
-      
+      })
+     
       marker.addListener('click', function() {
         // console.log(mapComponent)
         appComponent.populateInfoWindow(marker, largeInfowindow, map)
 				appComponent.foursquare(location.venue)
+        toggleBounce
       })
+      // console.log(markers)
+      markers.push(marker)
+    }
+
+    function toggleBounce() {
+      if (marker.getAnimation() !== null) {
+        marker.setAnimation(null)
+      } else {
+        marker.setAnimation(google.maps.Animation.BOUNCE)
+      }
     }
   }
   
@@ -199,7 +211,7 @@ class App extends Component {
       },
       	(error) => { this.setState({ isLoaded: true, error }) }
     )
-  }
+  }  
 
   render() {
     return (

@@ -56,7 +56,7 @@ class Menu extends Component {
         	/>
 				  <ul role='menu' aria-label='navigation'>
 				  	{showingLocation.map((location, i) => (
-							<li key={i} onClick={() => loc.locationItemClicked(location)}>{location.title}</li>
+							<li tabIndex='0' key={i} onClick={() => loc.locationItemClicked(location)}>{location.title}</li>
 				  	))}
 				  </ul>
 				</div>
