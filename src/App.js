@@ -8,24 +8,27 @@ var markers = []
 var appComponent
 
 class App extends Component {
-	state = {
-		locations: [
-		  {title: 'Park Ave Penthouse',location: {lat: 40.7713024, lng: -73.9632393},venue: '4da74283fa8ca9942859f0ed'},
+  state = {
+    locations: [
+      {title: 'Park Ave Penthouse',location: {lat: 40.7713024, lng: -73.9632393},venue: '4da74283fa8ca9942859f0ed'},
       {title: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}, venue: '4e3b11853151eaa7c4399f41'},
       {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}, venue: '4e5cd74eb99390f45c02672d'},
       {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}, venue: '4b720ca7f964a5201d6c2de3'},
       {title: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}, venue: '4bbb9dbded7776b0e1ad3e51'},
       {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}, venue: '4f52680fe4b0639bb9363366'}
-		],
+    ],
     map: {},
     locationInfo: {}
-	}
+  }
 
+  //for any authentication error
+  gm_authFailure(){
+    window.alert("error");
+  }
   componentDidMount() { 
     // console.log(this)
     appComponent = this
-
-    //https://www.npmjs.com/package/fetch-google-maps
+    window.gm_authFailure = this.gm_authFailure
     const fetchGoogleMaps = require('fetch-google-maps');
     //fetch google maps api and create a new map
     fetchGoogleMaps({
@@ -103,6 +106,33 @@ class App extends Component {
           }
         ]
       })
+
+      this.state.locations.map ((location) => {
+        if (window.google !== undefined) {
+          // console.log(window.google)
+          largeInfowindow = new window.google.maps.InfoWindow()
+
+          var marker = new window.google.maps.Marker({
+            map: map,
+            draggable: true,
+            animation: window.google.maps.Animation.DROP,
+            position: location.location,
+            title: location.title
+          })
+          // console.log(markers)
+          markers.push(marker)
+          
+          marker.addListener('click', function() {
+            // console.log(mapComponent)
+            appComponent.foursquare(location)
+            style: window.google.maps.MapTypeControlStyle.DROPDOWN_MENU
+            // appComponent.populateInfoWindow(marker, map)
+            // toggleBounce
+          })
+        }
+      })
+
+
       appComponent.setState({ map: map })
       appComponent.initMap()
     }).catch(error => { alert(error) })
@@ -113,117 +143,96 @@ class App extends Component {
     // console.log(window.google)
 
     //DRAW MARKERS
-    this.state.locations.map((locate) => {
-      return this.locationClick(locate, this.state.map)
-    })
+    // this.state.locations.map((locate) => {
+    //   return this.locationClick(locate, this.state.map)
+    // })
   }
 
-	//WHEN THE USER CLICKS THE MARKER, THE INFOWINDOW WILL APPEAR
-  locationClick (location, mapObj) {
-    const map = mapObj
-    var position = location.location
-    var title = location.title
-
-    if (window.google !== undefined) {
-      // console.log(window.google)
-      largeInfowindow = new window.google.maps.InfoWindow()
-
-      var marker = new window.google.maps.Marker({
-        map: map,
-        draggable: true,
-        animation: window.google.maps.Animation.DROP,
-        position: position,
-        title: title
-      })
-     
-      marker.addListener('click', function() {
-        // console.log(mapComponent)
-        appComponent.populateInfoWindow(marker, largeInfowindow, map)
-				appComponent.foursquare(location.venue)
-        // toggleBounce
-      })
-      // console.log(markers)
-      markers.push(marker)
-    }
-
-    // function toggleBounce() {
-    //   if (marker.getAnimation() !== null) {
-    //     marker.setAnimation(null)
-    //   } else {
-    //     marker.setAnimation(window.google.maps.Animation.BOUNCE)
-    //   }
-    // }
-  }
+  //WHEN THE USER CLICKS THE MARKER, THE INFOWINDOW WILL APPEAR
+  // locationClick (location, mapObj) {
+  //   const map = mapObj
+  //   var position = location.location
+  //   var title = location.title
+  // }
   
   //WHEN THE USER CLICKS THE LOCATION FROM HAMBURGER MENU IT WILL REFER TO THE MARKER OF THAT LOCATION AND SHOW ITS INFOWINDOW
   locationItemClicked (location) {
     // console.log(location)
-    let clickedItem = markers.filter((marker) => marker.title === location.title)
+    // let clickedItem = markers.filter((marker) => marker.title === location.title)
     // console.log(clickedItem)
-    appComponent.populateInfoWindow(clickedItem[0], largeInfowindow)
-    appComponent.foursquare(location.venue)
+    appComponent.foursquare(location)
+    // appComponent.populateInfoWindow(clickedItem[0])
+    // console.log(clickedItem[0])
   }
 
   //Check to make sure the infowindow is not already opened on this marker
-  populateInfoWindow(marker, infowindow, map) {
+  populateInfoWindow(marker, map) {
     // console.log(marker, infowindow, map)
-    if (infowindow.marker !== marker) {
-      infowindow.marker = marker
-      let locationInfoVar = this.state.locationInfo, content
+    if (largeInfowindow.marker !== marker) {
+      largeInfowindow.marker = marker
+      let locationInfoVar = this.state.locationInfo
+      let content
       if (locationInfoVar) {
-      	// console.log(locationInfoVar)
+        // console.log(locationInfoVar)
         { locationInfoVar.bestPhoto ?
           content = '<div>' + marker.title + '</div>' + '<img style="width: 100px; height: 100px" src=' + locationInfoVar.bestPhoto.prefix + '300x300' + locationInfoVar.bestPhoto.suffix + ' alt=' + locationInfoVar.name + '/>'
           : 
           content = '<div>' + marker.title + '</div>' + '<b>Image is not available !</b>'
         }
-        infowindow.setContent(content)
+        largeInfowindow.setContent(content)
       } else {
-	      infowindow.setContent('<div>' + marker.title + '</div>')
+        largeInfowindow.setContent('<div>' + marker.title + '</div>')
       }
-      infowindow.open(map, marker)
-      // Make sure the marker property is cleared if the infowindow is closed.
-      infowindow.addListener('closeclick', function() {
-        infowindow.setMarker = null;
+      largeInfowindow.open(map, marker)
+      // Make sure the marker property is cleared if the largeInfowindow is closed.
+      largeInfowindow.addListener('closeclick', function() {
+        largeInfowindow.setMarker = null;
       })
     }
   }
 
   //https://github.com/HadeerFawzy/Neighborhood-Map/blob/master/neighberhood-map/src/MapComponent.js#L126
   //https://foursquare.com/developers/apps
-  foursquare(markerId) {
-  	var clientId='0XYIQDEZYH1EXMULMKZQJUF0FUT1J41ECSNOHBFO0NLMSIWM'
-    var clientSecret='OWMEQKQHA4SUN4AT42WVX33VC3PMHNV0QVNNVBZFAU0XDDQI'
-    var url = 'https://api.foursquare.com/v2/venues/' + markerId + '?client_id=' + clientId + '&client_secret=' + clientSecret + '&v=20180611'
+  foursquare(marker) {
+    // console.log(marker)
 
-    fetch(url).then(res => res.json())
-  	.then(
-      (result) => {
+    var clientId='LTM5KBEOMK2WPX1NDJ4FWXNUH2WPY5CFK35YZWPIKN5PZYQH'
+    var clientSecret='OZCXYGWJNOHLZVV15XE23I4XB1KMFTNS4QGBEHU1WSQ1NW4C'
+
+    var url = 'https://api.foursquare.com/v2/venues/' + marker.venue + '?client_id=' + clientId + '&client_secret=' + clientSecret + '&v=20180711'
+
+    fetch(url)
+    .then(response => response.json())
+    .then( (result) => {
         // console.log(result)
-        this.setState({
-          locationInfo: result.response.venue
-        })          
+        // this.setState({
+        //   locationInfo: result.response.venue
+        // })
+        let clickedItem = markers.filter((markerSaved) => markerSaved.title === marker.title)
+        // console.log(clickedItem[0])
+        this.populateInfoWindow(clickedItem[0])
+
         // console.log(this.state.locationInfo)
         this.setState({
           isLoaded: true,
           items: result.items
         })
-      },
-      	(error) => { this.setState({ isLoaded: true, error }) }
-    )
-  }  
+      }).catch(
+        (error => {this.setState({ isLoaded: true, error }) })
+      )
+  } 
 
   render() {
     return (
       <div className="App">
         <Menu 
-        	locations= {this.state.locations} 
-        	map={this.state.map} 
-        	locationItemClicked={this.locationItemClicked} 
+          locations= {this.state.locations} 
+          map={this.state.map} 
+          locationItemClicked={this.locationItemClicked} 
         />
         <MapContainer 
-        	locations= {this.state.locations}
-        	map={this.initMap()}
+          locations= {this.state.locations}
+          map={this.initMap()}
         />
       </div>
     )
